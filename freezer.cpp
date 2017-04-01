@@ -52,17 +52,20 @@ string extention_extractor(string str)
     }   
 }
 
-void encrypter(string input)
+void encrypter(string input)//gets filename+path
 {
     string str;
     
+    //add extention serial_coders and open as fout
     file_name+=".serial_coders";
     fout.open(file_name.c_str(),ios::out );
     
+    //write encrypted extention to first line of encrypted file
     str=extention_extractor(input);
     encrypt(ext,1);
     fout<<endl;
     
+    //write rest of encrypted code to file
     while(true)
 	{
 	    getline(fin,str);
@@ -75,11 +78,11 @@ void encrypter(string input)
 	fout.close();
 }
 
-void decrypter(string input)
+void decrypter(string input)//gets filename+path
 {
     string str;
     
-    //add orig extention to file_name
+    //add orig extention to file_name and open as fout
 	getline(fin,str);
 	char a;
 	file_name+=".";
@@ -104,7 +107,6 @@ void decrypter(string input)
 }
 
 void list_gen(){
-
      string command = " \
         #get location of current dir \
         SOURCE=""${BASH_SOURCE[0]}"" \
@@ -132,18 +134,21 @@ void list_gen(){
         for i in $file3; do [ -f ""$i"" ] && echo ""$HOME$i"" >> $dir_pres/encrypted_list ; done | sort \
         ";
 
-   // system(command.c_str());
+   // system(command.c_str());//dont know why it is not working 
     system("./list_gen.sh");
 }
 
-void enc_dec(string input){
+void enc_dec(string input){//string from lists is a path to a file to be encripted/decripted
     string str;
 	
 	if(input==""){
 	    return;
 	}
 	
+	//open input file as fin
 	fin.open(input.c_str(),ios::in);
+	
+	//seperate file name and extention
 	ext=extention_extractor(input);
 	file_name=file_name_extractor(input);
 	
@@ -161,7 +166,28 @@ void enc_dec(string input){
     system(str.c_str());
     
 	fin.close();
-	fout.close();
+}
+
+void del_lists()
+{
+    int encrypted_list_there=0,files_there=0;
+    lin.open("encrypted_list",ios::in);
+	if(lin)
+	{
+	    encrypted_list_there=1;     
+	}
+    lin.close();
+	lin.open("files",ios::in);
+	if(lin)
+	{
+	    files_there=1;  
+	}
+	
+	//remove if there
+	if(encrypted_list_there) system("rm encrypted_list ");
+	if(files_there) system("rm files ");
+	
+    lin.close();
 }
 
 void list_reader(string task){
@@ -192,39 +218,15 @@ void list_reader(string task){
 	    enc_dec(str);
 	        
 	}
+	
 	lin.close();
+	del_lists();
 }
 
-void del_lists()
+void caller(string input)
 {
-    int encrypted_list_there=0,files_there=0;
-    lin.open("encrypted_list",ios::in);
-	if(lin)
-	{
-	    encrypted_list_there=1;     
-	}
-    lin.close();
-	lin.open("files",ios::in);
-	if(lin)
-	{
-	    files_there=1;  
-	}
-	
-	//remove if there
-	if(encrypted_list_there) system("rm encrypted_list ");
-	if(files_there) system("rm files ");
-	
-    lin.close();
-}
-
-int main(int argc, char *argv[])
-{
-	string input,str;
-	
-	list_gen();
-	
-	input=argv[1];
-	if(input=="encrypt")
+    list_gen();
+    if(input=="encrypt")
 	{
 	    list_reader("enc");
 	}
@@ -233,12 +235,16 @@ int main(int argc, char *argv[])
 	    list_reader("dec");
 	}
 	else{
-	    return 0;
+	    exit(0);
 	}
+}
 
-	fin.close();
+int main(int argc, char *argv[])
+{
+	string input;
 	
-	del_lists();
+	input=argv[1];
+	caller(input);
 	
 	cout<<"success\n";
 	return 0;
