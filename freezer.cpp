@@ -114,6 +114,7 @@ void list_gen(){
           [[ $SOURCE != /* ]] && SOURCE=""$DIR/$SOURCE"" # if $SOURCE was a relative symlink, we need to resolve it  \
         done \
         DIR=""$( cd -P ""$( dirname ""$SOURCE"" )"" && pwd )"" \
+        \
         dir_pres=$DIR \
         if [ -f $dir_pres/files ] ; then \
         rm $dir_pres/files \
@@ -122,15 +123,17 @@ void list_gen(){
         file0=""*.cpp */*.cpp */*/*.cpp */*/*/*.cpp */*/*/*/*.cpp "" \
         file1=""*.txt */*.txt */*/*.txt */*/*/*.txt */*/*/*/*.txt"" \
         file2=""*.java */*.java */*/*.java */*/*/*.java */*/*/*/*.java"" \
-        for i in $file0 $file1 $file2; do [ -f ""$i"" ] && echo ""$HOME$i"" >>$dir_pres/files ; done | sort \
+        for i in $file0 $file1 $file2; do [ -f ""$i"" ] && echo ""$HOME$i"" >> $dir_pres/files ; done | sort \
+        pwd\
         if [ -f $dir_pres/encrypted_list ] ; then \
             rm $dir_pres/encrypted_list \
             fi \
         file3=""*.serial_coders */*.serial_coders */*/*.serial_coders */*/*/*.serial_coders */*/*/*/*.serial_coders"" \
-        for i in $file3; do [ -f ""$i"" ] && echo ""$HOME$i"" >>$dir_pres/encrypted_list ; done | sort \
+        for i in $file3; do [ -f ""$i"" ] && echo ""$HOME$i"" >> $dir_pres/encrypted_list ; done | sort \
         ";
 
-    system(command.c_str());
+   // system(command.c_str());
+    system("./list_gen.sh");
 }
 
 void enc_dec(string input){
@@ -166,6 +169,7 @@ void list_reader(string task){
 	{
 	    lin.open("files",ios::in);
 	    if(!lin){
+	        cout<<"files not found\n";
 	        exit(0);
 	    }
 	}
@@ -173,6 +177,7 @@ void list_reader(string task){
 	{
 	    lin.open("encrypted_list",ios::in);
 	    if(!lin){
+	        cout<<"encrypted_list not found\n";
 	        exit(0);
 	    }
 	}
@@ -190,6 +195,28 @@ void list_reader(string task){
 	lin.close();
 }
 
+void del_lists()
+{
+    int encrypted_list_there=0,files_there=0;
+    lin.open("encrypted_list",ios::in);
+	if(lin)
+	{
+	    encrypted_list_there=1;     
+	}
+    lin.close();
+	lin.open("files",ios::in);
+	if(lin)
+	{
+	    files_there=1;  
+	}
+	
+	//remove if there
+	if(encrypted_list_there) system("rm encrypted_list ");
+	if(files_there) system("rm files ");
+	
+    lin.close();
+}
+
 int main(int argc, char *argv[])
 {
 	string input,str;
@@ -197,7 +224,7 @@ int main(int argc, char *argv[])
 	list_gen();
 	
 	input=argv[1];
-	if(input=="enc")
+	if(input=="encrypt")
 	{
 	    list_reader("enc");
 	}
@@ -211,7 +238,8 @@ int main(int argc, char *argv[])
 
 	fin.close();
 	
-	system("");
+	del_lists();
+	
 	cout<<"success\n";
 	return 0;
 }

@@ -11,8 +11,10 @@ all:
 	cp .start.desktop bin/start.desktop
 	cp list_gen.sh bin/
 	mv enc_dec bin/
-	
+	echo "hello world \n\nhow are you\n\n\n\nbye" > bin/hello.txt
+
 	mv freezer build/
+	cp list_gen.sh build/
 	cp .start.sh build/
 	cp .start.desktop build/start.desktop
 clean:
