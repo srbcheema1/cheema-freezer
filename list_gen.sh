@@ -7,8 +7,7 @@ cd $HOME
 file0="*.cpp */*.cpp */*/*.cpp */*/*/*.cpp */*/*/*/*.cpp "
 file1="*.txt */*.txt */*/*.txt */*/*/*.txt */*/*/*/*.txt"
 file2="*.java */*.java */*/*.java */*/*/*.java */*/*/*/*.java"
-file3="*.class */*.class */*/*.class */*/*/*.class */*/*/*/*.class"
-for i in $file0 $file1 $file2 $file3; do [ -f "$i" ] && echo "$HOME/$i" >>$dir_pres/files ; done | sort
+for i in $file0 $file1 $file2; do [ -f "$i" ] && echo "$HOME/$i" >>$dir_pres/files ; done | sort
 
 if [ -f $dir_pres/encrypted_list ] ; then
     rm $dir_pres/encrypted_list
