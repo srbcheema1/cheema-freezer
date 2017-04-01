@@ -208,8 +208,6 @@ int main(int argc, char *argv[])
 	}
 
 	fin.close();
-	system("rm encrypted_list ");
-	system("rm files");
 	cout<<"success\n";
 	return 0;
 }
