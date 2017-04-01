@@ -147,7 +147,7 @@ void enc_dec(string input){
 	    encrypter(input);
 	}
 	
-    str=(string)"rm "+input+" ";
+    str=(string)"rm """+input+""" ";
     system(str.c_str());
     
 	fin.close();
