@@ -159,11 +159,17 @@ void list_reader(string task){
 	{
 	    cout<<"task == enc\n";
 	    lin.open("files",ios::in);
+	    if(!lin){
+	        exit(0);
+	    }
 	}
 	else
 	{
 	    cout<<"task == dec\n";
 	    lin.open("encrypted_list",ios::in);
+	    if(!lin){
+	        exit(0);
+	    }
 	}
 	
 	string str,command;
@@ -192,13 +198,18 @@ int main(int argc, char *argv[])
 	    cout<<"list_reader(enc) called\n";
 	    list_reader("enc");
 	}
-	else
+	else if(input=="dec")
 	{
 	    cout<<"list_reader(dec) called\n";
 	    list_reader("dec");
 	}
+	else{
+	    return 0;
+	}
 
 	fin.close();
+	system("rm encrypted_list ");
+	system("rm files");
 	cout<<"success\n";
 	return 0;
 }
