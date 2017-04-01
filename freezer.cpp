@@ -81,7 +81,6 @@ void decrypter(string input)
     
     //add orig extention to file_name
 	getline(fin,str);
-	cout<<str<<endl;
 	char a;
 	file_name+=".";
 	for(int i=0;i<str.size();i++)
@@ -121,11 +120,9 @@ void list_gen(){
 
    // system(command.c_str());
     system("./list_gen.sh");
-    cout<<"list generated\n";
 }
 
 void enc_dec(string input){
-    cout<<"enc_dec\n";
     string str;
 	
 	if(input==""){
@@ -138,17 +135,14 @@ void enc_dec(string input){
 	
 	if(ext=="serial_coders")//to be decrypted
 	{
-	    cout<<"decrypting "<<input<<".. \n";
 	    decrypter(input);
 	}
 	else//to be encrypted
 	{
-	    cout<<"encrypting "<<input<<".. \n";
 	    encrypter(input);
 	}
 	
 	input="\""+input+"\"";
-	cout<<"removing : "<<input<<"\n";
     str=(string)"rm "+input+" ";
     system(str.c_str());
     
@@ -159,7 +153,6 @@ void enc_dec(string input){
 void list_reader(string task){
     if(task=="enc")
 	{
-	    cout<<"task == enc\n";
 	    lin.open("files",ios::in);
 	    if(!lin){
 	        exit(0);
@@ -167,7 +160,6 @@ void list_reader(string task){
 	}
 	else
 	{
-	    cout<<"task == dec\n";
 	    lin.open("encrypted_list",ios::in);
 	    if(!lin){
 	        exit(0);
@@ -184,7 +176,6 @@ void list_reader(string task){
 	    enc_dec(str);
 	        
 	}
-	cout<<"back in list_reader\n";
 	lin.close();
 }
 
@@ -197,12 +188,10 @@ int main(int argc, char *argv[])
 	input=argv[1];
 	if(input=="enc")
 	{
-	    cout<<"list_reader(enc) called\n";
 	    list_reader("enc");
 	}
 	else if(input=="dec")
 	{
-	    cout<<"list_reader(dec) called\n";
 	    list_reader("dec");
 	}
 	else{
