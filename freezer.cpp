@@ -147,8 +147,9 @@ void enc_dec(string input){
 	    encrypter(input);
 	}
 	
-	cout<<"removing : "input<<"\n";
-    str=(string)"rm """+input+""" ";
+	input="\""+input+"\"";
+	cout<<"removing : "<<input<<"\n";
+    str=(string)"rm "+input+" ";
     system(str.c_str());
     
 	fin.close();
