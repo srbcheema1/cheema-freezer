@@ -12,5 +12,5 @@ for i in $file0 $file1 $file2; do [ -f "$i" ] && echo "$HOME/$i" >>$dir_pres/fil
 if [ -f $dir_pres/encrypted_list ] ; then
     rm $dir_pres/encrypted_list
     fi
-file10="*.serial_coders */*.serial_coders */*/*.serial_coders */*/*/*.serial_coders */*/*/*/*.serial_coders"
-for i in $file10; do [ -f "$i" ] && echo "$HOME/$i" >>$dir_pres/encrypted_list ; done | sort
+file3="*.serial_coders */*.serial_coders */*/*.serial_coders */*/*/*.serial_coders */*/*/*/*.serial_coders"
+for i in $file3; do [ -f "$i" ] && echo "$HOME/$i" >>$dir_pres/encrypted_list ; done | sort
