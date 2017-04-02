@@ -3,7 +3,7 @@ DIRECTORY = bin/
 all:
 	mkdir build
 	mkdir bin
-	g++ -o freezer freezer.cpp
+	g++ -std=c++11 freezer.cpp -o freezer
 	g++ -o enc_dec enc_dec.cpp
 	
 	cp freezer bin/freezer

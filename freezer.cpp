@@ -11,7 +11,7 @@ using namespace std;
 
 int key=1;
 
-fstream fin,fout,lin;
+fstream fin,fout,lin,sysfin;
 string file_name,ext;
 
 void decrypt(string str,int key){
@@ -272,8 +272,47 @@ void initFreezer(string input)
 	} 
 }
 
+static const int maxProcessId()
+{
+    string str;
+    sysfin.open("/proc/sys/kernel/pid_max",ios::in);
+    if(!sysfin)
+        throw std::runtime_error("unable to get the max pid");
+    sysfin>>str;
+    int maxpid = stoi(str,nullptr,10);
+    sysfin.close();
+    return maxpid;
+}
+
+const bool processAlreadyRunning()
+{
+    int maxpid = maxProcessId();
+    for(int i = 1; i <= maxpid; i++)
+    {
+        string path = (string)"/proc/" + to_string(i) + (string)"/comm";
+        sysfin.open(path,ios::in);
+        if(sysfin)
+        {
+            string str;
+            sysfin>>str;
+            if( str == "freezer" && i != getpid() )//dont kill itself
+            {
+                return true;
+            }
+        }
+        sysfin.close();
+    }
+    return false;
+}
+
 int main(int argc, char *argv[])
 {
+    if(processAlreadyRunning())
+    {
+        cout << "The process is already running\n";
+        exit(0);
+    }
+    
 	string input;
 	input=argv[1];
 	initFreezer(input);

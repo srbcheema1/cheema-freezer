@@ -1,5 +1,0 @@
-[Desktop Entry]
-Name=setup
-Exec=bash -c "export PATH=$PATH:`dirname %k`; try.sh"
-Terminal=true
-Type=Application
