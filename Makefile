@@ -15,6 +15,7 @@ all:
 	echo "helloworld" > bin/.freezerkey
 	mv enc_dec bin/
 	echo "hello world \n\nhow are you\n\n\n\nbye" > bin/hello.txt
+	echo "oneisgodo@1" > bin/.pass
 	
 	mv freezer build/freezer
 	cp start.sh build/.start.sh

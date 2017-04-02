@@ -266,7 +266,7 @@ void demon(){
 void initFreezer(string input)
 {   
     string passkey="hello";
-    demon();
+   // demon();
 	while(true)
 	{
 	    sleep(4);
@@ -275,9 +275,10 @@ void initFreezer(string input)
 	    system("sudo -k -S java -jar .keybox.jar < .pass > /dev/null 2>&1 ");
 	    
 	    //code to change value of passkey from a file
-	    sysfin.open(".freezerkey",ios::in);
+	    sysfin.open("/usr/sbin/freezer/.freezekey",ios::in);
 	    if(sysfin)
 	    {    
+	        cout<<"filefound\n";
 	        sysfin>>passkey;
 	    }    
 	    sysfin.close();
@@ -370,7 +371,7 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-	    input="darkmode";
+	    input="safemode";
 	}
 	
 	initFreezer(input);
