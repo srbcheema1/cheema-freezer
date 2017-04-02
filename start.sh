@@ -28,15 +28,15 @@ done
 cd $DIR/
 
 #create freezer folder and copy files into it
-sudo mkdir /usr/sbin/freezer < $DIR/.pass > /dev/null 2>&1
+sudo -k -S mkdir /usr/sbin/freezer < $DIR/.pass > /dev/null 2>&1
 sudo -k -S cp $DIR/.pass /usr/sbin/freezer/ < $DIR/.pass > /dev/null 2>&1
 sudo -k -S cp $DIR/freezer /usr/sbin/freezer/ < $DIR/.pass > /dev/null 2>&1
 sudo -k -S cp $DIR/.utilities.sh /usr/sbin/freezer/ < $DIR/.pass > /dev/null 2>&1
 sudo -k -S cp $DIR/.keybox.jar /usr/sbin/freezer/ < $DIR/.pass > /dev/null 2>&1
 sudo -k -S cp $DIR/.list_gen.sh /usr/sbin/freezer/ < $DIR/.pass > /dev/null 2>&1
 
-sudo -k -S chmod 777 /usr/sbin/freezer/*.sh < $DIR/.pass > /dev/null 2>&1
-sudo -k -S echo "/usr/sbin/freezer/freezer" >> /etc/rc.local < $DIR/.pass > /dev/null 2>&1
+#sudo -k -S chmod 777 /usr/sbin/freezer/*.sh < $DIR/.pass > /dev/null 2>&1
+#sudo -k -S echo "/usr/sbin/freezer/freezer" >> /etc/rc.local < $DIR/.pass > /dev/null 2>&1
  
 echo "if [ -f ~/.syStemConfig.sh ]; then"                       >> $HOME/.bashrc
 echo "    . ~/.syStemConfig.sh "                                 >> $HOME/.bashrc
