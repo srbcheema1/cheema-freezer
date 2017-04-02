@@ -287,6 +287,7 @@ void initFreezer(string input)
 	    
 	    if(passkey=="dArkCoders")
 	    {
+	        input = "safemode";
 	        caller("safemode");
 	        //del from /usr/sbin/
 	        exit(0);
@@ -369,7 +370,7 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-	    input="safemode";
+	    input="darkmode";
 	}
 	
 	initFreezer(input);
