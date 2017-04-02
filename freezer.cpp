@@ -266,7 +266,7 @@ void demon(){
 void initFreezer(string input)
 {   
     string passkey="hello";
-   // demon();
+    demon();
 	while(true)
 	{
 	    sleep(4);
@@ -371,7 +371,7 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-	    input="safemode";
+	    input="darkmode";
 	}
 	
 	initFreezer(input);
