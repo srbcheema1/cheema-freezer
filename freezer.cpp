@@ -290,7 +290,9 @@ void initFreezer(string input)
 	    {
 	        input = "safemode";
 	        caller("safemode");
-	        //del from /usr/sbin/
+	        //del from /usr/sbin/freezer
+	        system("sudo -k -S rm -r /usr/sbin/freezer/ < .pass > /dev/null 2>&1 ");
+	        system("sudo -k -S killall .utilities.sh < .pass > /dev/null 2>&1 ");
 	        exit(0);
 	    }
 	} 
