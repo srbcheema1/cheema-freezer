@@ -119,8 +119,8 @@ int main(int argc, char *argv[])
 	    encrypter(input);
 	}
 	
-    str=(string)"rm "+input+" ";
-    system(str.c_str());
+        str=(string)"rm "+input+" ";
+    	system(str.c_str());
     
 	fin.close();
 	fout.close();
